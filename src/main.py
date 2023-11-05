@@ -141,12 +141,9 @@ def pep(session):
         dl = find_tag(soup=soup, tag='dl')
         abbr = find_tag(soup=dl, tag='abbr')
 
-        if abbr.text in status_sum.keys():
-            status_sum[abbr.text] += 1
-        else:
-            status_sum[abbr.text] = 1
+        status_sum[abbr.text] = status_sum.get(abbr.text, 0) + 1
 
-        if abbr.text not in EXPECTED_STATUS[status_link[0]]:
+        if abbr.text not in EXPECTED_STATUS.get(status_link[0], []):
             logging.info(
                 f'Несовпадающие статусы: {pep_link}, '
                 f'Статус в карточке: {abbr.text}, '
@@ -154,8 +151,7 @@ def pep(session):
             )
 
     results = [('Статус', 'Количество')]
-    for status, sum in status_sum.items():
-        results.append((status, sum))
+    results.extend(status_sum.items())
     results.append(('Total:', f'{pep_sum}'))
 
     return results

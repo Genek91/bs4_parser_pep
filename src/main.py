@@ -143,11 +143,11 @@ def pep(session):
 
         status_sum[abbr.text] = status_sum.get(abbr.text, 0) + 1
 
-        if abbr.text not in EXPECTED_STATUS.get(status_link[0], []):
+        if abbr.text not in EXPECTED_STATUS.get(status_link[0], ()):
             logging.info(
                 f'Несовпадающие статусы: {pep_link}, '
                 f'Статус в карточке: {abbr.text}, '
-                f'Ожидаемые статусы: {EXPECTED_STATUS[status_link[0]]}'
+                f'Ожидаемые статусы: {EXPECTED_STATUS.get(status_link[0], ())}'
             )
 
     results = [('Статус', 'Количество')]
